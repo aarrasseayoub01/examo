@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  frontend:
+    build: ./exam-frontend-main
+    container_name: frontend
+    ports:
+      - "80:80"
+    restart: always
+
+  mongodb-service:
+    image: mongo:latest
+    container_name: mongodb-service
+    volumes:
+      - data:/data/db
+    ports:
+      - "27017:27017"
+  backend:
+    depends_on:
+      - mongodb-service
+    build: ./exam-backend-main
+    container_name: backend
+    ports:
+      - "5000:5000"
+    
+volumes:
+  data:
+    external: true
+    
